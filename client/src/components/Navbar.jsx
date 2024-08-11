@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <nav className="bg-yellowPrimary p-4">
+        <nav className="bg-pastel-yellow p-4">
             <div className="container mx-auto flex justify-between items-center">
-                <Link to="/" className="text-2xl font-bold text-bluePrimary">
+                <Link to="/" className="text-2xl font-bold text-pastel-blue">
                     FlashCard Tool
                 </Link>
                 <div>

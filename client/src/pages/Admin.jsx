@@ -1,9 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 import AdminDashboard from '../components/AdminDashboard';
-
 const Admin = () => {
+    const navigate = useNavigate();
+
+    // Protect the route
+    useAuth();
+
     const handleLogout = () => {
         localStorage.removeItem('token');
-        window.location.href = '/login';
+        navigate('/login');
     };
 
     return (
