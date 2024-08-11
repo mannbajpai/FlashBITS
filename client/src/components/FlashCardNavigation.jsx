@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 const FlashCardNavigation = ({ prevCard, nextCard }) => {
     return (
         <div className="flex justify-between mt-6">
@@ -7,4 +8,8 @@ const FlashCardNavigation = ({ prevCard, nextCard }) => {
     );
 };
 
+FlashCardNavigation.propTypes = { 
+    prevCard: PropTypes.func,
+    nextCard: PropTypes.func,
+}
 export default FlashCardNavigation;

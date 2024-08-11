@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 const Pagination = ({ currentPage, totalPages, setPage }) => {
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -15,5 +16,11 @@ const Pagination = ({ currentPage, totalPages, setPage }) => {
         </div>
     );
 };
+
+Pagination.propTypes = {
+    currentPage: PropTypes.number,
+    totalPages: PropTypes.number,
+    setPage: PropTypes.func,
+}
 
 export default Pagination;

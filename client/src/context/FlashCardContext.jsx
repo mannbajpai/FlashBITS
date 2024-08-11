@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { createContext, useState, useEffect } from 'react';
 import api from '../api';
 
@@ -28,5 +29,11 @@ export const FlashCardProvider = ({ children }) => {
         </FlashCardContext.Provider>
     );
 };
+
+FlashCardProvider.propTypes = {
+    children: PropTypes.object.isRequired,
+}
+
+
 
 

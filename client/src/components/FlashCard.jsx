@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { useState } from 'react';
 
 const FlashCard = ({ flashcard }) => {
@@ -11,5 +12,9 @@ const FlashCard = ({ flashcard }) => {
         </div>
     );
 };
+
+FlashCard.propTypes = {
+    flashcard: PropTypes.object.isRequired,
+}
 
 export default FlashCard;
