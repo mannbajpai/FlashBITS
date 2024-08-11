@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const login = async (username, password) => {
-    const admin = await Admin.findOne({ where: { username } });
+    const admin = await Admin.findByPk(username);
     if (!admin) {
         throw new Error('Admin not found');
     }
