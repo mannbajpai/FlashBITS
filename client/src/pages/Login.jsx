@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import api from '../api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -22,7 +22,11 @@ const Login = () => {
     };
 
     return (
-        <div className="py-10 mb-0 flex justify-center items-center min-h-[85vh]">
+    <>
+    <div className="navbar bg-primary flex flex-1 items-center justify-center h-full max-h-[15vh]">
+  <Link to='/' className="btn btn-ghost text-xl">FlashBITS</Link>
+</div>
+        <div className="py-10 mb-0 flex justify-center items-center min-h-[75vh]">
             <form onSubmit={handleSubmit} className="bg-neutral mx-auto p-6 rounded-xl w-full  shadow-md max-w-3xl flex flex-col items-center">
                 <h1 className="text-2xl font-bold text-center mb-4">Admin Login</h1>
                 {error && <p className="text-error text-center mb-4">{error}</p>}
@@ -45,12 +49,12 @@ const Login = () => {
                     />
                 </div>
                 <div className=' mb-4 flex flex-row justify-between w-2/3 px-20'>
-                <button onClick={()=>navigate(-1)} className="btn rounded-full btn-error w-2/5 min-w-xs">Cancel</button>
-                <button type="submit" className="btn rounded-full btn-accent w-2/5 min-w-xs">Login</button>
+                    <button onClick={() => navigate(-1)} className="btn rounded-full btn-error w-2/5 min-w-xs">Cancel</button>
+                    <button type="submit" className="btn rounded-full btn-accent w-2/5 min-w-xs">Login</button>
                 </div>
-                
             </form>
         </div>
+    </>
     );
 };
 
