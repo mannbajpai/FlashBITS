@@ -12,7 +12,7 @@ export const FlashCardProvider = ({ children }) => {
         const fetchFlashcards = async () => {
             try {
                 const response = await api.get('/flashcards');
-                setFlashcards(response.data);
+                setFlashcards(response.data.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Failed to fetch flashcards', error);
