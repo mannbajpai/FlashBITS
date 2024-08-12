@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 import api from '../api';
 import { LoaderSpinner } from '../components/Loader';
 const EditFlashcard = () => {
+
+    useAuth();
+    
     const { id } = useParams(); // Get the flashcard ID from the URL
     const navigate = useNavigate();
     const [flashcard, setFlashcard] = useState({ question: '', answer: '' });

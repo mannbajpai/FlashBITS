@@ -24,7 +24,7 @@ export const FlashCardProvider = ({ children }) => {
     }, []);
 
     return (
-        <FlashCardContext.Provider value={{ flashcards, loading }}>
+        <FlashCardContext.Provider value={{ flashcards, setFlashcards, loading }}>
             {children}
         </FlashCardContext.Provider>
     );
