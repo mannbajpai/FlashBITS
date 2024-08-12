@@ -44,8 +44,9 @@ const EditFlashcard = () => {
         try {
             const res = await api.patch(`/flashcards/${id}`, flashcard);
             if (res.data.status === 'success') {
+                console.log(res.data.flashcard)
                 setFlashcards((prevFlashcards) => {
-                    const index = prevFlashcards.findIndex((flashcard) => flashcard.id === id);
+                    const index = prevFlashcards.findIndex((flashcard) => flashcard.id === res.data.flashcard.id);
                     if (index !== -1) {
                       prevFlashcards[index] = res.data.flashcard;
                     }
