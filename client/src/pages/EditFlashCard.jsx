@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import { FlashCardContext } from '../context/FlashCardContext';
 import api from '../api';
 import { LoaderSpinner } from '../components/Loader';
 const EditFlashcard = () => {
 
     useAuth();
-    
+    const {setFlashcards} = useContext(FlashCardContext);
     const { id } = useParams(); // Get the flashcard ID from the URL
     const navigate = useNavigate();
     const [flashcard, setFlashcard] = useState({ question: '', answer: '' });
@@ -14,10 +15,13 @@ const EditFlashcard = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchFlashcard = async() => {
-            const res = await api.get(`/flashcards/${id}`);
+        const fetchFlashcard = async () => {
             try {
-                setFlashcard(res.data);
+                const res = await api.get(`/flashcards/${id}`);
+                setFlashcard({
+                    question: res.data.flashcard.question,
+                    answer: res.data.flashcard.answer,
+                });
                 setLoading(false);
             } catch (error) {
                 setError('Failed to load flashcard');
@@ -35,19 +39,31 @@ const EditFlashcard = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        api.patch(`/flashcards/${id}`, flashcard)
-            .then(() => {
-                navigate('/admin'); // Redirect to the admin dashboard after successful update
-            })
-            .catch(err => {
-                setError('Failed to update flashcard');
-                throw new Error(err.message);
-            });
+        try {
+            const res = await api.patch(`/flashcards/${id}`, flashcard);
+            if (res.data.status === 'success') {
+                setFlashcards((prevFlashcards) => {
+                    const index = prevFlashcards.findIndex((flashcard) => flashcard.id === id);
+                    if (index !== -1) {
+                      prevFlashcards[index] = res.data.flashcard;
+                    }
+                    return [...prevFlashcards];
+                  });
+                navigate('/admin');
+            } else {
+                alert('Error updating flashcard');
+            }
+
+        }
+        catch (err) {
+            setError('Failed to update flashcard');
+            throw new Error(err.message);
+        }
     };
 
-    if (loading) return <LoaderSpinner/>;
+    if (loading) return <LoaderSpinner />;
     if (error) return <div>{error}</div>;
 
     return (
@@ -61,19 +77,19 @@ const EditFlashcard = () => {
                         name="question"
                         value={flashcard.question}
                         onChange={handleChange}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-1/2"
                         placeholder="Enter the question"
                         required
                     />
                 </div>
                 <div className="mb-4">
                     <label htmlFor="answer" className="block text-gray-700 font-bold mb-2">Answer</label>
-                    <input
+                    <textarea
                         type="text"
                         name="answer"
                         value={flashcard.answer}
                         onChange={handleChange}
-                        className="input input-bordered w-full max-w-xs"
+                        className="textarea textarea-bordered w-1/2"
                         placeholder="Enter the answer"
                         required
                     />
