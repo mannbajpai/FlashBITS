@@ -1,20 +1,23 @@
 import Admin from "../models/Admin.js";
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const login = async (username, password) => {
+    console.log(username, password);
     const admin = await Admin.findByPk(username);
+    console.log(admin);
     if (!admin) {
         throw new Error('Admin not found');
     }
 
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
+    if (password === admin.password) {
+        const token = jwt.sign({ id: admin.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return token;
+    }
+    else {
         throw new Error('Invalid credentials');
     }
 
-    const token = jwt.sign({ id: admin.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return token;
+
 };
 
 
