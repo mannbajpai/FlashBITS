@@ -2,12 +2,13 @@ import * as FlashcardService from '../services/flashcardService.js'
 
 export const getFlashcards = async (req, res) => {
     try {
-        const flashcards = await FlashcardService.getAllFlashcards();
-        res.status(200).json({ status: 'success', data: flashcards });
+        console.log(req.query)
+      const flashcards = await FlashcardService.getAllFlashcards(req.query);
+      res.status(200).json({ status: 'success', data: flashcards });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-};
+  };
 
 export const getFlashcard = async (req, res) => {
     try {

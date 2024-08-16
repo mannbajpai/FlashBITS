@@ -1,8 +1,20 @@
 import Flashcard from "../models/Flashcard.js";
 
-export const getAllFlashcards = async () => {
-    return await Flashcard.findAll();
+export const getAllFlashcards = async (options = {}) => {
+    try {
+      const { limit = 10, offset = 0 } = options;
+      const flashcards = await Flashcard.findAll({
+        attributes: ['id', 'question', 'answer'], // select specific fields
+        limit: Number(limit), // Ensure these are numbers
+        offset: Number(offset),
+      });
+      return flashcards;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
 };
+
 
 export const getFlashcardById = async (id) => {
     return await Flashcard.findByPk(id);
