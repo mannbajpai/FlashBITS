@@ -4,18 +4,20 @@ import FlashCard from '../components/FlashCard';
 import FlashCardNavigation from '../components/FlashCardNavigation';
 import Navbar from '../components/Navbar';
 import api from '../api';
+import { LoaderSpinner, LoadingDots } from '../components/Loader';
 
 const Home = () => {
-    const { setFlashcards } = useContext(FlashCardContext);
+    const { setFlashcards, loading:initialLoading } = useContext(FlashCardContext);
     const [flashcards, setLocalFlashcards] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [flipped, setFlipped] = useState(false);
     const [limit] = useState(10); // Limit the number of flashcards per page
     const [offset, setOffset] = useState(0); // Offset for pagination
-
+    const [loading, setLoading] = useState(false); //
     useEffect(() => {
         // Fetch flashcards based on the current offset and limit
         const fetchFlashcards = async () => {
+            setLoading(true);
             try {
                 const response = await api.get(`/flashcards`, {
                     params: { limit, offset },
@@ -28,6 +30,7 @@ const Home = () => {
             } catch (error) {
                 console.error('Failed to fetch flashcards:', error);
             }
+            setLoading(false);
         };
 
         fetchFlashcards();
@@ -57,8 +60,11 @@ const Home = () => {
         <>
             <Navbar />
             <div className="w-full text-center flex flex-col items-center justify-center min-h-[70vh]">
-                <FlashCard flashcard={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
-                <FlashCardNavigation prevCard={prevCard} nextCard={nextCard} />
+                {initialLoading ? <LoaderSpinner /> :
+                    <>
+                        {loading ?<LoadingDots/>:<FlashCard flashcard={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />}
+                        <FlashCardNavigation prevCard={prevCard} nextCard={nextCard} />
+                    </>}
             </div>
         </>
     );
