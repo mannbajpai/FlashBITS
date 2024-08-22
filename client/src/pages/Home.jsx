@@ -54,12 +54,11 @@ const Home = () => {
         }
     };
 
-    if (!flashcards.length) return <div>No Flashcards Available</div>;
-
     return (
         <>
             <Navbar />
             <div className="w-full text-center flex flex-col items-center justify-center min-h-[70vh]">
+            {(!flashcards.length) && <div>No Flashcards Available</div>}
                 {initialLoading ? <LoaderSpinner /> :
                     <>
                         {loading ?<LoadingDots/>:<FlashCard flashcard={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />}
