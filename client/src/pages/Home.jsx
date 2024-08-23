@@ -58,7 +58,7 @@ const Home = () => {
         <>
             <Navbar />
             <div className="w-full text-center flex flex-col items-center justify-center min-h-[70vh]">
-            {(!flashcards.length) && <div>No Flashcards Available</div>}
+            {(!flashcards.length) && <LoaderSpinner/>}
                 {initialLoading ? <LoaderSpinner /> :
                     <>
                         {loading ?<LoadingDots/>:<FlashCard flashcard={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />}
